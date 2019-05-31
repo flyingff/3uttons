@@ -82,7 +82,7 @@ const bfs = (init, fn, test, maxSteps, cbk) => {
   mkState(init);
 
   let lastDepth = 0;
-  process.stdout.write("Searching");
+  process.stdout.write("Searching for Solution");
   while(list.length > 0) {
     const o = list.shift();
     if (o.path.length >= maxSteps) {

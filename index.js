@@ -5,7 +5,7 @@ console.log("= (type q/exit/quit to quit) =");
 console.log("==============================");
 
 const prompt = () => {
-  console.log('Which level do you want to know:');
+  process.stdout.write('Which level do you want to know: ');
 }
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', input => {
@@ -21,7 +21,7 @@ process.stdin.on('data', input => {
     console.log("Invalid. Only 1 - 73 are allowed");
   } else {
     try {
-      const mod = require('./calc-' + n);
+      const mod = require('./solutions/calc-' + n);
       if (mod.ops) {
         framework.test(mod.init, mod.fn, mod.ops);
       }
