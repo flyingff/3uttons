@@ -1,10 +1,12 @@
 const cwd = require('path').resolve();
 const framework = require('./framework');
 
-console.log("==============================");
-console.log("=      Buttons Solutions     =");
-console.log("= (type q/exit/quit to quit) =");
-console.log("==============================");
+console.log("================================");
+console.log("=                              =");
+console.log("=       3uttons Solutions      =");
+console.log("=  (type q/exit/quit to quit)  =");
+console.log("=                              =");
+console.log("================================");
 
 const prompt = () => {
   process.stdout.write('Which level do you want to know: ');
@@ -12,7 +14,9 @@ const prompt = () => {
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', input => {
   const str = input.toString().trim();
-  if (str === 'q' || str === 'exit' || str === 'quit') {
+  if (str.toLowerCase() === 'q' ||
+    str.toLowerCase() === 'exit' ||
+    str.toLowerCase() === 'quit') {
     console.log("Bye");
     process.exit(0);
     return;
