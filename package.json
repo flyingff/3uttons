@@ -4,7 +4,7 @@
   "description": "Game solution for Buttons",
   "main": "index.js",
   "scripts": {
-    "test": "index.js\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Cnode index.js"
+    "start": "index.js"
   },
   "repository": {
     "type": "git",
