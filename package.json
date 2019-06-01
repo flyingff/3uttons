@@ -1,0 +1,22 @@
+{
+  "name": "buttons",
+  "version": "1.0.0",
+  "description": "Game solution for Buttons",
+  "main": "index.js",
+  "scripts": {
+    "test": "index.js\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Cnode index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flyingff/buttons.git"
+  },
+  "author": "ff",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flyingff/buttons/issues"
+  },
+  "homepage": "https://github.com/flyingff/buttons#readme",
+  "dependencies": {
+    "fastpriorityqueue": "^0.6.3"
+  }
+}

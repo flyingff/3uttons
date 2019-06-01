@@ -1,3 +1,5 @@
+const Heap = require('fastpriorityqueue');
+
 /**
 const init = {
   // 'btns' represents state of buttons, or something
@@ -75,16 +77,18 @@ const step = (fn, obj, btn) => {
   maxSteps: limit the maximum search depth
   cbk:      callback funtion when a solution is discovered
 */
-const bfs = (init, fn, test, maxSteps, cbk) => {
+const bfs = (init, fn, test, cmp, maxSteps, cbk) => {
   // state to be resolved
-  const list = [init];
+  const heap = new Heap(cmp);
   init.path = [];
   mkState(init);
+  heap.add(init);
 
   let lastDepth = 0;
   process.stdout.write("Searching for Solution");
-  while(list.length > 0) {
-    const o = list.shift();
+  while(!heap.isEmpty()) {
+    const o = heap.poll();
+
     if (o.path.length >= maxSteps) {
       // exceed maximum search depth
       continue;
@@ -106,7 +110,7 @@ const bfs = (init, fn, test, maxSteps, cbk) => {
         return true;
       } else {
         // if not, put it to list
-        list.push(ret);
+        heap.add(ret);
       }
     }
   }
@@ -114,6 +118,33 @@ const bfs = (init, fn, test, maxSteps, cbk) => {
   return false;
 };
 
+const defaultCmp = (x, y) => {
+  return x.path.length < y.path.length;
+};
+
+const chunk = (array, n) => 
+  Array.apply(null, {
+      length: Math.ceil(array.length / n)
+  }).map((x, i) => {
+      return array.slice(i * n, (i + 1) * n);
+  })
+;
+
+const COLORS = [
+  '\033[33;40;1;7m 0 \033[0m',
+  '\033[31;40;1;7m 1 \033[0m',
+  '\033[32;40;1;7m 2 \033[0m',
+]
+const format = (path) => {
+  console.log('Solution got: [\n')
+  chunk(path, 10).forEach(it => {
+    it = it.map(v => COLORS[v]);
+    it.splice(6, 0, ' ');
+    it.splice(3, 0, ' ');
+    console.log('  ', it.join(' '), '\n');
+  });
+  console.log(']');
+}
 module.exports = {
   // for debug only
   test: (initial, fn, steps) => {
@@ -125,14 +156,20 @@ module.exports = {
       console.log(JSON.stringify(o));
     }
   },
-  solve: (initial, fn, test, maxSteps = 30) => {
+  solve: (initial, fn, test, cmp, post, maxSteps = 30) => {
     // clear status
     map.clear();
+    if (typeof cmp !== 'function') {
+      cmp = defaultCmp;
+    }
 
     let path = false;
-    if(!bfs(initial, fn, test, maxSteps, solution => {
+    if(!bfs(initial, fn, test, cmp, maxSteps, solution => {
       path = solution.path;
-      console.log("Solution got:", solution.path);
+      if (typeof post === 'function') {
+        path = post(path);
+      }
+      format(path);
     })) {
       console.log("No solution found in %d steps.", maxSteps);
     }

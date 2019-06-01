@@ -1,4 +1,6 @@
+const cwd = require('path').resolve();
 const framework = require('./framework');
+
 console.log("==============================");
 console.log("=      Buttons Solutions     =");
 console.log("= (type q/exit/quit to quit) =");
@@ -25,9 +27,16 @@ process.stdin.on('data', input => {
       if (mod.ops) {
         framework.test(mod.init, mod.fn, mod.ops);
       }
-      framework.solve(mod.init, mod.fn, mod.test);
+      framework.solve(mod.init, mod.fn, mod.test, mod.cmp, mod.post, mod.max);
     } catch(ex) {
       console.log("Exception:", ex);
+      // clear cahce for better debug
+      for (const key in require.cache) {
+        if (key.endsWith('calc-' + n + '.js')) {
+          delete require.cache[key];
+          console.log("Module unloaded: ", key);
+        }
+      }
     }
   }
   prompt();
