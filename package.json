@@ -1,21 +1,21 @@
 {
-  "name": "buttons",
+  "name": "3uttons-solver",
   "version": "1.0.0",
-  "description": "Game solution for Buttons",
+  "description": "Game solution for 3uttons",
   "main": "index.js",
   "scripts": {
-    "start": "index.js"
+    "start": "node ./index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flyingff/buttons.git"
+    "url": "git+https://github.com/flyingff/3uttons.git"
   },
-  "author": "ff",
+  "author": "flyingff",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/flyingff/buttons/issues"
+    "url": "https://github.com/flyingff/3uttons/issues"
   },
-  "homepage": "https://github.com/flyingff/buttons#readme",
+  "homepage": "https://github.com/flyingff/3uttons#readme",
   "dependencies": {
     "fastpriorityqueue": "^0.6.3"
   }
