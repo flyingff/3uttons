@@ -1,4 +1,4 @@
-# Buttons | 按钮之谜 #
+# 3uttons | 按钮之谜 #
 
 -------
 
@@ -11,7 +11,7 @@ Usage:
 3. Got result
 4. Operate -> 0 - Yellow button; 1 - Red button; 2 - Green button
 
-Currently supports level 1 - 42
+Currently supports level 1 - 73
 
 -------
 
@@ -24,4 +24,4 @@ Currently supports level 1 - 42
 3. 得出结果
 4. 操作 -> 0: 黄色按钮, 1: 红色按钮, 2: 绿色按钮
 
-当前更新至42关
+当前更新至73关
