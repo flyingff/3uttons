@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <meta charset="UTF-8">
+  <title>3uttons Solutions</title>
+  <style>
+    @font-face {
+      font-family: 'font0';
+      src: url(./fonts/font.ttf);
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      font-family: 'font0';
+    }
+    * {
+      user-select: none;
+    }
+    #container {
+      width: 304px;
+      height: 464px;
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      margin: auto;
+      padding: 8px;
+      background: #594022;
+      outline: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-content: center;
+      align-items: center;
+
+      animation-name: fadein;
+      animation-duration: 0.4s;
+      animation-iteration-count: 1;
+    }
+    #container>h1 {
+      font-variant:small-caps;
+      text-align: center;
+      color: #eead51;
+      
+      font-weight: bold;
+      font-size: 48px;
+      margin-bottom: 0.2em;
+
+      flex: 0 auto;
+    }
+    #container>h2 {
+      margin-top: 0.2em;
+      text-align: center;
+      color: #eead51;
+      flex: 0 auto;
+    }
+    .button-container {
+      width: 234px;
+      background: url(./imgs/btns.png);
+      background-size: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 0 3px;
+      flex: 0 80px;
+      display: flex;
+      flex-flow: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .button-container>div {
+      width: 56px;
+      height: 64px;
+      margin-top: 4px;
+      cursor: pointer;
+      color: #444;
+      text-align: center;
+      line-height: 64px;
+      font-size: 32px;
+      font-weight: lighter;
+    }
+    h3 {
+      height: 30px;
+      text-align: center;
+      flex: 0 auto;
+      color: #eead51;
+      line-height: 30px;
+    }
+    .answer {
+      width: 100%;
+      padding: 8px;
+      flex: 1 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      align-content: flex-start;
+    }
+    .answer>div {
+      width: 7%;
+      height: 0;
+      padding-bottom: 7%;
+      margin: 2% 0.67%;
+      border-radius: 200%;
+      flex: 0 auto;
+
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+      animation-duration: 0.2s;
+    }
+    .answer .y {
+      background: #dbbe1c;
+    }
+    .answer .r {
+      background: #f5734f;
+    }
+    .answer .g {
+      background: #7ddd72;
+    }
+    @keyframes fadeout {
+      0%    { opacity: 1; }
+      100%  { opacity: 0; }
+    }
+    @keyframes fadein {
+      0%    { opacity: 0; }
+      100%  { opacity: 1; }
+    }
+    .fadein {
+      animation-name: fadein;
+    }
+    .fadeout {
+      animation-name: fadeout;
+    }
+  </style>
+  <script>
+    window.require = {
+      main : false
+    };
+    window.module = {}
+  </script>
+  <script src="./FastPriorityQueue.js"></script>
+  <script src="./framework.js"></script>
+
+</head>
+<body>
+  <div id="container">
+    <h1>3uttons</h1>
+    <h2>SOLUTION</h2>
+    <div class="button-container">
+      <div id="btn1">0</div>
+      <div id="btn2">0</div>
+      <div id="btn3"></div>
+    </div>
+    <h3>Welcome.</h3>
+    <div class="answer"></div>
+  </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    window.LEVELS = [];
+    window.FRAMEWORK = window.module.exports;
+    console.log(FRAMEWORK);
+    window.loadedCallback = null;
+    window.module = new Proxy({}, {
+      set : (obj, prop, value) => {
+        if (prop === 'exports' && (typeof loadedCallback) === 'function') {
+          loadedCallback(value);
+        }
+      }
+    });
+    const btn1 = document.querySelector('#btn1');
+    const btn2 = document.querySelector('#btn2');
+    const btn3 = document.querySelector('#btn3');
+    const label = document.querySelector('h3');
+    const answer = document.querySelector('div.answer');
+    const delay = async (tm) => new Promise((res) => setTimeout(res, tm));
+    const say = async (str) => {
+      str = str.trim();
+      while(label.textContent.length > 0) {
+        label.textContent = label.textContent.substring(0, label.textContent.length - 1);
+        await delay(10);
+      }
+      const len = str.length;
+      while(label.textContent.length < len) {
+        label.textContent += str[label.textContent.length];
+        await delay(10);
+      }
+    };
+
+    const ANSWER_CLASS = ['y', 'r', 'g'];
+    const showAnswer = async (array) => {
+      for (const n of Array.from(answer.children).reverse()) {
+        n.classList.remove('fadein');
+        n.classList.add('fadeout');
+        await delay(20);
+      }
+      await delay(200);
+      // remove all children
+      answer.innerHTML = "";
+
+      let count = 0;
+      for (const n of array) {
+        if (count == 3 || count == 6) {
+          answer.appendChild(document.createElement('div'));
+        } else if (count == 10) {
+          count = 0;
+        }
+        const d = document.createElement('div');
+        d.classList.add(ANSWER_CLASS[n]);
+        d.classList.add('fadein');
+        answer.appendChild(d);
+        count++;
+        await delay(20);
+      }
+    };
+    const loadLevel = async (level) => {
+      if (!document.querySelector('script#level' + level)) {
+        await say('Loading...');
+        const script = document.createElement('script');
+        script.src = './solutions/calc-' + level + '.js';
+        const promise = new Promise((res) => {
+          window.loadedCallback = (obj) => {
+            res(window.LEVELS[level] = obj);
+          };
+        });
+
+        document.head.appendChild(script);
+        return Promise.race([promise, delay(1000)]);
+      }
+      return window.LEVELS[level];
+    }
+    const calculate = async (level) => {
+      const config = await loadLevel(level);
+      if (!config) {
+        await say('Error!');
+        return [];
+      }
+      await say('Calculating...');
+      const result = window.FRAMEWORK.solve(config.init, config.fn, config.test,
+          config.cmp, config.post, config.max, false);
+      return result;
+    };
+
+
+
+    let digit1 = 0, digit2 = 0;
+    let calculating = false;
+    btn1.addEventListener('click', () => {
+      if (calculating) { return; }
+      digit1 = (digit1 + 1) % 10;
+      btn1.textContent = digit1;
+    });
+    btn2.addEventListener('click', () => {
+      if (calculating) { return; }
+      digit2 = (digit2 + 1) % 10;
+      btn2.textContent = digit2;
+    });
+
+    btn3.addEventListener('click', async () => {
+      if (calculating) { return; }
+      calculating = true;
+      const level = digit1 * 10 + digit2;
+      if (level < 1 || level > 73) {
+        await say('X');
+      } else {
+        await showAnswer([]);
+        await showAnswer(await calculate(level));
+        await say('Welcome.');
+      }
+      calculating = false;
+    })
+  });
+
+</script>
+</body>
+</html>

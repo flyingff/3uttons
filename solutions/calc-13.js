@@ -1,3 +1,5 @@
+(()=> {
+
 const test = ({ btns, fields }) => {
   return fields[0] === 0 &&
     fields[1] === 0 &&
@@ -39,3 +41,5 @@ let init = {
 module.exports = {
   fn, test, init
 };
+
+})();

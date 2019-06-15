@@ -1,3 +1,5 @@
+(()=> {
+
 const init = {
   btns: [],
   fields : [
@@ -60,3 +62,5 @@ module.exports = {
     return x.matches > y.matches;
   }
 };
+
+})();

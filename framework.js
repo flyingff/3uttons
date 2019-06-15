@@ -1,4 +1,4 @@
-const Heap = require('fastpriorityqueue');
+const Heap = this.FastPriorityQueue || require('fastpriorityqueue');
 
 /**
 const init = {
@@ -77,7 +77,7 @@ const step = (fn, obj, btn) => {
   maxSteps: limit the maximum search depth
   cbk:      callback funtion when a solution is discovered
 */
-const bfs = (init, fn, test, cmp, maxSteps, cbk) => {
+const bfs = (init, fn, test, cmp, maxSteps, cbk, consoleOut) => {
   // state to be resolved
   const heap = new Heap(cmp);
   init.path = [];
@@ -85,7 +85,9 @@ const bfs = (init, fn, test, cmp, maxSteps, cbk) => {
   heap.add(init);
 
   let lastDepth = 0;
-  process.stdout.write("Searching for Solution");
+  if (consoleOut) {
+    process.stdout.write("Searching for Solution");
+  }
   while(!heap.isEmpty()) {
     const o = heap.poll();
 
@@ -94,7 +96,9 @@ const bfs = (init, fn, test, cmp, maxSteps, cbk) => {
       continue;
     } else if (o.path.length > lastDepth) {
       // report current searching depth
-      process.stdout.write(".");
+      if (consoleOut) { 
+        process.stdout.write(".");
+      }
       lastDepth = o.path.length;
     }
     for(const op of [0, 1, 2]) {
@@ -105,7 +109,9 @@ const bfs = (init, fn, test, cmp, maxSteps, cbk) => {
       }
       // check whether new state finishes the game
       if (test(ret)) {
-        process.stdout.write("\n");
+        if (consoleOut) { 
+          process.stdout.write("\n");
+        }
         cbk(ret);
         return true;
       } else {
@@ -114,7 +120,9 @@ const bfs = (init, fn, test, cmp, maxSteps, cbk) => {
       }
     }
   }
-  process.stdout.write("\n");
+  if (consoleOut) {
+    process.stdout.write("\n");
+  }
   return false;
 };
 
@@ -156,7 +164,7 @@ module.exports = {
       console.log(JSON.stringify(o));
     }
   },
-  solve: (initial, fn, test, cmp, post, maxSteps = 30) => {
+  solve: (initial, fn, test, cmp, post, maxSteps = 30, consoleOut = true) => {
     // clear status
     map.clear();
     if (typeof cmp !== 'function') {
@@ -169,9 +177,13 @@ module.exports = {
       if (typeof post === 'function') {
         path = post(path);
       }
-      format(path);
-    })) {
-      console.log("No solution found in %d steps.", maxSteps);
+      if (consoleOut) {
+        format(path);
+      }
+    }, consoleOut)) {
+      if (consoleOut) {
+        console.log("No solution found in %d steps.", maxSteps);
+      }
     }
     return path;
   }

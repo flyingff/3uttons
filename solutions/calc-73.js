@@ -1,3 +1,5 @@
+(()=> {
+
 const init = {
   btns: [4],
   fields : "TNHK YOAU".split('')
@@ -28,3 +30,5 @@ const fn = ({ btns, fields, fields_ }, id) => {
 module.exports = {
   fn, test, init
 };
+
+})();

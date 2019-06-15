@@ -1,3 +1,5 @@
+(()=> {
+
 const init = {
   btns: [4, 11, 7],
   fields : [
@@ -39,3 +41,5 @@ const fn = ({ btns, fields }, id) => {
 module.exports = {
   fn, test, init
 };
+
+})();
